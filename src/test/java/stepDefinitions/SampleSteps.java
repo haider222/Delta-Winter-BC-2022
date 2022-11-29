@@ -100,16 +100,16 @@ public class SampleSteps {
     public void iAmOnActionPage() {
         driver.get("https://kristinek.github.io/site/examples/actions");
     }
-    @When("I go to demoshop")
-    public void iGoToDemoshop()
+
+    @When("I go to demoshop url")
+    public void iGoToDemoshopUrl()
     {
         driver.get("http://www.demoshop24.com/");
     }
 
-    @Then("I get slaped")
-    public void iGetSlaped()
+    @Then("I should see searchbar")
+    public void iShouldSeeSearchbar()
     {
         Assertions.assertTrue(driver.findElement(By.className("fa-search")).isDisplayed());
     }
-
 }
