@@ -4,10 +4,12 @@ import io.cucumber.java.en.And;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import io.cucumber.java.en.Given;
+import org.junit.Assert;
 import org.junit.Assert.*;
 import org.junit.jupiter.api.Assertions;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
 import static org.junit.Assert.*;
 
@@ -52,5 +54,17 @@ public class VladsSteps {
     @And("User checks that Search in subcategories checkbox is unchecked")
     public void userChecksThatSearchInSubcategoriesCheckboxIsUnchecked() {
     assertFalse(driver.findElement(By.cssSelector("#content > div > div:nth-child(3) > label > input[type=checkbox]")).isSelected());
+    }
+
+    @Then("User sees empty search list")
+    public void userSeesTextInSearchList() {
+        assertTrue(driver.findElement(By.cssSelector("#content > p:nth-child(7)")).isDisplayed());
+    }
+
+    @Then("User sees result list contain product {string}")
+    public void userSeesResultListContainProductValue(String arg0) {
+        WebElement searchList = driver.findElement(By.xpath("//*[@id=\"content\"]/div[3]"));
+        assertTrue(searchList.isDisplayed());
+        assertTrue(searchList.getText().contains(arg0));
     }
 }

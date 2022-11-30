@@ -11,7 +11,7 @@ Feature: Search in subcategories
     And User selects "<option>" in categories dropdown menu
     And User checks that Search in subcategories checkbox is unchecked
     And User clicks search button (on page)
-    Then User see search result list is empty
+    Then User sees empty search list
     Examples:
       | value | option   |
       | iMac  | Desktops |
@@ -23,7 +23,7 @@ Feature: Search in subcategories
     And User checks that Search in subcategories checkbox is unchecked
     And user checks the Search in subcategories checkbox
     And User clicks search button (on page)
-    Then User sees result list contain product <value>
+    Then User sees result list contain product "<value>"
     Examples:
       | value | option   |
       | iMac  | Desktops |
