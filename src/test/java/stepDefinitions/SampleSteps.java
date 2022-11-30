@@ -115,6 +115,6 @@ public class SampleSteps {
 
     @And("I wait {int} seconds")
     public void iWaitSeconds(int arg0) throws InterruptedException {
-        Thread.sleep(arg0 * 1000);
+        Thread.sleep(arg0 * 1000L);
     }
 }
