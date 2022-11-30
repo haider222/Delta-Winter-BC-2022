@@ -11,7 +11,7 @@ Feature: User Should be able to search using text
     And User clicks the advanced search button
     Then User should see message "<errorMessage>" in search results
     Examples:
-      | query                | errorMessage                                         |
+      | query            | errorMessage                                          |
       | Intel Core 2 Duo | There is no product that matches the search criteria. |
 
 
@@ -22,5 +22,5 @@ Feature: User Should be able to search using text
     And User clicks the advanced search button
     Then User should see at least 2 products  with "<query>" in description.
     Examples:
-      | query                |
+      | query            |
       | Intel Core 2 Duo |

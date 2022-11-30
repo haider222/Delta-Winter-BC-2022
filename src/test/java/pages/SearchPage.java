@@ -82,6 +82,20 @@ public class SearchPage
         }
         return descriptions;
     }
+
+    public boolean clickSearchResultByName(String name)
+    {
+        for(WebElement element : searchResults)
+        {
+            List<WebElement> nameElements = element.findElements(By.xpath("//a[text()='"+name+"']"));
+            if(nameElements.size() > 0)
+            {
+                element.click();
+                return true;
+            }
+        }
+        return false;
+    }
     public List<String> getProductNames()
     {
         List<String> names = new ArrayList<>();

@@ -1,10 +1,10 @@
 package pages_sample;
 
+import org.junit.jupiter.api.Assertions;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.How;
 
-import static org.junit.Assert.assertEquals;
 
 public class AgeSubmittedPage {
     @FindBy(how = How.CSS, using = "#message")
@@ -17,6 +17,6 @@ public class AgeSubmittedPage {
     }
 
     public void checkMessageText(String messageText) {
-        assertEquals(message.getText(), messageText);
+        Assertions.assertEquals(message.getText(), messageText);
     }
 }
