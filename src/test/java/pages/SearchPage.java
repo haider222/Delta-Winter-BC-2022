@@ -5,6 +5,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.How;
 
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,6 +22,9 @@ public class SearchPage
 
     @FindBy(how = How.CSS, using = "#content p:not(:has(label))")
     WebElement searchErrorMessage;
+
+    @FindBy(how = How.XPATH, using = "//*[@id='content']//*[contains(text(),'There is no product')]")
+    WebElement searchResultEmptyMessage;
 
     @FindBy(className = "product-thumb")
     List<WebElement> searchResults;
@@ -57,6 +61,16 @@ public class SearchPage
         return searchErrorMessage.getText();
     }
 
+    public boolean isSearchResultIsEmpty() {
+        boolean resultEmpty = true;
+        try {
+            searchResultEmptyMessage.getText();
+        } catch (Exception e) {
+            resultEmpty = false;
+        }
+        return resultEmpty;
+    }
+
     public List<String> getProductDescpriptions()
     {
         List<String> descriptions = new ArrayList<>();
@@ -68,4 +82,16 @@ public class SearchPage
         }
         return descriptions;
     }
+    public List<String> getProductNames()
+    {
+        List<String> names = new ArrayList<>();
+        for (WebElement product : searchResults)
+        {
+            WebElement name = product.findElement(By.cssSelector(".product-thumb h4 a"));
+            String text = name.getText();
+            names.add(text);
+        }
+        return names;
+    }
+
 }
