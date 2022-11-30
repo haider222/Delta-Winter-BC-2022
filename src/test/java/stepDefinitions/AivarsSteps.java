@@ -9,6 +9,8 @@ import org.openqa.selenium.support.PageFactory;
 import pages.HeaderPage;
 import pages.SearchPage;
 
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 public class AivarsSteps {
@@ -53,5 +55,17 @@ public class AivarsSteps {
     @Then("User see search result list is empty")
     public void userSeeSearchResultListIsEmpty() {
         assertTrue(searchPage.isSearchResultIsEmpty());
+    }
+
+    @And("User selects sorting {string}")
+    public void userSelectsSorting(String arg0) {
+        searchPage.selectSortBy(arg0);
+    }
+
+    @Then("User see search result list contains items {string}")
+    public void userSeeSearchResultListContainsItems(String arg0) {
+        List<String> productNames = searchPage.getProductNames();
+        String actualString = String.join(",", productNames);
+        assertEquals(actualString, arg0);
     }
 }
