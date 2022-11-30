@@ -112,4 +112,9 @@ public class SampleSteps {
     {
         Assertions.assertTrue(driver.findElement(By.className("fa-search")).isDisplayed());
     }
+
+    @And("I wait {int} seconds")
+    public void iWaitSeconds(int arg0) throws InterruptedException {
+        Thread.sleep(arg0 * 1000);
+    }
 }
