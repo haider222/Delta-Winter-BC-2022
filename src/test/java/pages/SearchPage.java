@@ -1,8 +1,12 @@
 package pages;
 
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.How;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class SearchPage
 {
@@ -15,8 +19,11 @@ public class SearchPage
     @FindBy(how = How.ID, using = "description")
     WebElement searchInDescriptionCheckbox;
 
-    @FindBy(how = How.XPATH, using = "//div[@id='content']/p[2]") //TODO: fix xpath
+    @FindBy(how = How.CSS, using = "#content p:not(:has(label))")
     WebElement searchErrorMessage;
+
+    @FindBy(className = "product-thumb")
+    List<WebElement> searchResults;
 
     public void enterSearchValue(String value)
     {
@@ -48,5 +55,17 @@ public class SearchPage
     public String getSearchErrorMessage()
     {
         return searchErrorMessage.getText();
+    }
+
+    public List<String> getProductDescpriptions()
+    {
+        List<String> descriptions = new ArrayList<>();
+        for (WebElement product : searchResults)
+        {
+            WebElement description = product.findElement(By.cssSelector("p:not(:has(span))"));
+            String text = description.getText();
+            descriptions.add(text);
+        }
+        return descriptions;
     }
 }
