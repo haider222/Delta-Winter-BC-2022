@@ -82,4 +82,16 @@ public class SearchPage
         }
         return descriptions;
     }
+    public List<String> getProductNames()
+    {
+        List<String> names = new ArrayList<>();
+        for (WebElement product : searchResults)
+        {
+            WebElement name = product.findElement(By.cssSelector(".product-thumb h4 a"));
+            String text = name.getText();
+            names.add(text);
+        }
+        return names;
+    }
+
 }
