@@ -5,18 +5,18 @@ import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import org.junit.jupiter.api.Assertions;
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.PageFactory;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 import pages.ComparisonPage;
 import pages.HeaderPage;
 import pages.ProductPage;
 import pages.SearchPage;
 
-import java.time.Duration;
 import java.util.List;
+import java.util.Map;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * @author Victor
@@ -31,6 +31,18 @@ public class VictorSteps
     private final ProductPage productPage;
 
     private final ComparisonPage comparisonPage;
+
+    private String price;
+
+    public String getPrice()
+    {
+        return price;
+    }
+
+    public void setPrice(String price)
+    {
+        this.price = price;
+    }
 
     public VictorSteps()
     {
@@ -88,9 +100,9 @@ public class VictorSteps
     public void userShouldSeeAtLeastProductsWithInDescription(int number, String text)
     {
         List<String> descriptions = searchPage.getProductDescpriptions();
-        Assertions.assertTrue(descriptions.size() >= number);
-        Assertions.assertTrue(descriptions.get(0).contains(text));
-        Assertions.assertTrue(descriptions.get(1).contains(text));
+        assertTrue(descriptions.size() >= number);
+        assertTrue(descriptions.get(0).contains(text));
+        assertTrue(descriptions.get(1).contains(text));
     }
 
     @Given("User goes to compare page")
@@ -114,7 +126,7 @@ public class VictorSteps
     @Then("User should see Compare this product button")
     public void userShouldSeeCompareThisProductButton()
     {
-        Assertions.assertTrue(productPage.isCompareButtonPresent());
+        assertTrue(productPage.isCompareButtonPresent());
     }
 
     @And("User removes all products from comparison")
@@ -140,6 +152,49 @@ public class VictorSteps
     public void userShouldSeeProductInComparison(String productName)
     {
         List<String> comparedProducts = comparisonPage.getComparedProductNames();
-        Assertions.assertTrue(comparedProducts.contains(productName));
+        assertTrue(comparedProducts.contains(productName));
+    }
+
+    @Then("User should be able to see product image")
+    public void userShouldBeAbleToSeeProductImage()
+    {
+        assertTrue(productPage.isProductImageVisible());
+    }
+
+    @When("User selects {string} currency")
+    public void userSelectsCurrency(String currency)
+    {
+        headerPage.selectCurrency(currency);
+    }
+
+    @And("User stores product {string} price from search results")
+    public void userStoresProductPriceFromSearchResults(String product)
+    {
+        Map<String,String> prices = searchPage.getProductPrices();
+        setPrice(prices.get(product));
+    }
+
+    @Then("User should be able to see correct product price in Euro")
+    public void userShouldBeAbleToSeeCorrectProductPriceInEuro()
+    {
+        assertEquals(getPrice(),productPage.getPriceText());
+    }
+
+    @Then("User should be able to see product specification")
+    public void userShouldBeAbleToSeeProductSpecification()
+    {
+        assertTrue(productPage.isSpecificationTabPresent(), "Specification tab not found");
+    }
+
+    @When("User clicks on Specification tab")
+    public void userClicksOnSpecificationTab()
+    {
+        productPage.clickSpecificationTab();
+    }
+
+    @Then("User should be able to see specification tab")
+    public void userShouldBeAbleToSeeSpecificationTab()
+    {
+        assertTrue(productPage.isSpecificationTabActive());
     }
 }
