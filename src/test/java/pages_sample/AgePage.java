@@ -1,10 +1,9 @@
 package pages_sample;
 
+import org.junit.jupiter.api.Assertions;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.How;
-
-import static org.junit.Assert.*;
 
 
 public class AgePage {
@@ -57,13 +56,13 @@ public class AgePage {
     }
 
     public void checkErrorMessage(String errorMessage) {
-        assertEquals(errorText.getText(), errorMessage);
-        assertTrue(errorText.isDisplayed());
+        Assertions.assertEquals(errorText.getText(), errorMessage);
+        Assertions.assertTrue(errorText.isDisplayed());
     }
 
     public void checkThatFormIsClean() {
-        assertEquals(nameInput.getAttribute("value"), "Enter name here");
-        assertEquals(ageInput.getAttribute("value"), "");
-        assertFalse(errorText.isDisplayed());
+        Assertions.assertEquals(nameInput.getAttribute("value"), "Enter name here");
+        Assertions.assertEquals(ageInput.getAttribute("value"), "");
+        Assertions.assertFalse(errorText.isDisplayed());
     }
 }

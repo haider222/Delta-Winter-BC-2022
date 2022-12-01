@@ -1,12 +1,12 @@
 package stepDefinitions;
 
-import cucumber.api.java.en.And;
-import cucumber.api.java.en.Given;
-import cucumber.api.java.en.Then;
-import cucumber.api.java.en.When;
+import io.cucumber.java.en.And;
+import io.cucumber.java.en.Given;
+import io.cucumber.java.en.Then;
+import io.cucumber.java.en.When;
+import org.junit.jupiter.api.Assertions;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
 
 import java.util.List;
 import java.util.Map;
@@ -99,5 +99,22 @@ public class SampleSteps {
     @Given("^I am on action page$")
     public void iAmOnActionPage() {
         driver.get("https://kristinek.github.io/site/examples/actions");
+    }
+
+    @When("I go to demoshop url")
+    public void iGoToDemoshopUrl()
+    {
+        driver.get("http://www.demoshop24.com/");
+    }
+
+    @Then("I should see searchbar")
+    public void iShouldSeeSearchbar()
+    {
+        Assertions.assertTrue(driver.findElement(By.className("fa-search")).isDisplayed());
+    }
+
+    @And("I wait {int} seconds")
+    public void iWaitSeconds(int arg0) throws InterruptedException {
+        Thread.sleep(arg0 * 1000L);
     }
 }

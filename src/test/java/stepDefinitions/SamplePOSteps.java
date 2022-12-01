@@ -1,27 +1,28 @@
 package stepDefinitions;
 
-import cucumber.api.java.en.And;
-import cucumber.api.java.en.Given;
-import cucumber.api.java.en.Then;
-import cucumber.api.java.en.When;
-import org.openqa.selenium.By;
+import io.cucumber.java.en.And;
+import io.cucumber.java.en.Given;
+import io.cucumber.java.en.Then;
+import io.cucumber.java.en.When;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.PageFactory;
-import pages_sample.*;
+import pages.HeaderPage;
+import pages_sample.AgePage;
+import pages_sample.AgeSubmittedPage;
 
 import java.util.Map;
-
-import static org.junit.Assert.assertEquals;
 
 public class SamplePOSteps {
     private WebDriver driver;
     static AgePage agePage;
+    static HeaderPage headerPage;
     static AgeSubmittedPage ageSubmittedPage;
 
     public SamplePOSteps() {
         this.driver = Hooks.driver;
         agePage = PageFactory.initElements(Hooks.driver, AgePage.class);
         ageSubmittedPage = PageFactory.initElements(Hooks.driver, AgeSubmittedPage.class);
+        headerPage = PageFactory.initElements(Hooks.driver, HeaderPage.class);
     }
 
     @When("^I enter name: \"([^\"]*)\" using PO$")
@@ -53,5 +54,11 @@ public class SamplePOSteps {
     public void iEnterValues(Map<String, String> valuesToEnter) throws Throwable {
         agePage.enterName(valuesToEnter.get("name"));
         agePage.enterAge(valuesToEnter.get("age"));
+    }
+
+    @And("I click Login Page button")
+    public void iClickLoginPageButton() {
+        headerPage.enterSearchValue("mac");
+        headerPage.pressEnterToSearch();
     }
 }
