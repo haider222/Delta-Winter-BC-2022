@@ -6,7 +6,8 @@ import org.junit.runner.RunWith;
 
 @RunWith(Cucumber.class)
 @CucumberOptions(
-        features = {"src/test/resources/features/14SearchByNameRegexp.feature",
+        features = {"src/test/resources/features/13SearchBoxVisibility.feature",
+                "src/test/resources/features/14SearchByNameRegexp.feature",
                 "src/test/resources/features/15SearchByDescription.feature",
                 "src/test/resources/features/17SearchedProductsCanBeSorted.feature",
                 "src/test/resources/features/19UserIsAbleToWriteReviewAfterPurchase.feature",
