@@ -9,6 +9,7 @@ import io.cucumber.java.en.Given;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.PageFactory;
+import pages.HeaderFooterPage;
 import pages.HeaderPage;
 import pages.MultiplePages;
 
@@ -21,13 +22,13 @@ import static org.junit.Assert.assertTrue;
 public class IngaSteps {
     private WebDriver driver;
     static MultiplePages search13;
-    static HeaderPage header;
+    static HeaderFooterPage header;
 
     public IngaSteps() {
 
         this.driver = Hooks.driver;
         search13 = PageFactory.initElements(Hooks.driver, MultiplePages.class);
-        header = PageFactory.initElements(Hooks.driver, HeaderPage.class);
+        header = PageFactory.initElements(Hooks.driver, HeaderFooterPage.class);
     }
 
     @Given("user is at demoshop page")
@@ -98,7 +99,7 @@ public class IngaSteps {
     }
 
     @And("user fills in the form with valid credentials")
-    public void userFillsInTheFormWithValidCredentials(Map<String, String> valuesToEnter) throws Throwable {
+    public void userFillsInTheFormWithValidCredentials(Map<String, String> valuesToEnter) {
         search13.enterNameAtContactForm(valuesToEnter.get("name"));
         search13.enterEmailAtContactForm(valuesToEnter.get("email"));
         search13.enterEnquiryAtContactForm(valuesToEnter.get("enquiry"));
@@ -122,7 +123,7 @@ public class IngaSteps {
     }
 
     @And("user fills in Returns form with valid credentials")
-    public void userFillsInReturnsFormWithValidCredentials(Map<String, String> valuesToEnter) throws Throwable {
+    public void userFillsInReturnsFormWithValidCredentials(Map<String, String> valuesToEnter) {
         search13.enterFirstNameAtReturnsForm(valuesToEnter.get("firstName"));
         search13.enterLastNameAtReturnsForm(valuesToEnter.get("lastName"));
         search13.enterEmailAtReturnsForm(valuesToEnter.get("email"));
@@ -161,12 +162,12 @@ public class IngaSteps {
 
     @And("user clicks login")
     public void userClicksLogin() {
-        header.clickLogin();
+        header.clickLoginAtHeader();
     }
 
 
     @And("user enters data to log in")
-    public void userEntersDataToLogIn(Map<String, String> valuesToEnter) throws Throwable {
+    public void userEntersDataToLogIn(Map<String, String> valuesToEnter) {
         search13.enterEmail(valuesToEnter.get("myemail"));
         search13.enterPassword(valuesToEnter.get("mypassword"));
     }
