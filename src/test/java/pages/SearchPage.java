@@ -5,29 +5,31 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.How;
 
-
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class SearchPage
 {
     @FindBy(how = How.ID, using = "input-search")
-    WebElement searchField;
+    private WebElement searchField;
 
     @FindBy(how = How.ID, using = "button-search")
-    WebElement searchButton;
+    private WebElement searchButton;
 
     @FindBy(how = How.ID, using = "description")
-    WebElement searchInDescriptionCheckbox;
+    private WebElement searchInDescriptionCheckbox;
 
     @FindBy(how = How.CSS, using = "#content p:not(:has(label))")
-    WebElement searchErrorMessage;
+    private WebElement searchErrorMessage;
 
-    @FindBy(how = How.XPATH, using = "//*[@id='content']//*[contains(text(),'There is no product')]")
+    @FindBy(how = How.XPATH, using = "//*[@id='content']//*[contains(text(),'There is no " +
+            "product')]")
     WebElement searchResultEmptyMessage;
 
     @FindBy(className = "product-thumb")
-    List<WebElement> searchResults;
+    private List<WebElement> searchResults;
 
     public void enterSearchValue(String value)
     {
@@ -61,11 +63,15 @@ public class SearchPage
         return searchErrorMessage.getText();
     }
 
-    public boolean isSearchResultIsEmpty() {
+    public boolean isSearchResultIsEmpty()
+    {
         boolean resultEmpty = true;
-        try {
+        try
+        {
             searchResultEmptyMessage.getText();
-        } catch (Exception e) {
+        }
+        catch (Exception e)
+        {
             resultEmpty = false;
         }
         return resultEmpty;
@@ -85,10 +91,11 @@ public class SearchPage
 
     public boolean clickSearchResultByName(String name)
     {
-        for(WebElement element : searchResults)
+        for (WebElement element : searchResults)
         {
-            List<WebElement> nameElements = element.findElements(By.xpath("//a[text()='"+name+"']"));
-            if(nameElements.size() > 0)
+            List<WebElement> nameElements =
+                    element.findElements(By.xpath("//a[text()='" + name + "']"));
+            if (nameElements.size() > 0)
             {
                 element.click();
                 return true;
@@ -96,16 +103,37 @@ public class SearchPage
         }
         return false;
     }
+
     public List<String> getProductNames()
     {
         List<String> names = new ArrayList<>();
         for (WebElement product : searchResults)
         {
-            WebElement name = product.findElement(By.cssSelector(".product-thumb h4 a"));
+            WebElement name = product.findElement(By.cssSelector("h4 a"));
             String text = name.getText();
             names.add(text);
         }
         return names;
     }
 
+    public Map<String, String> getProductPrices()
+    {
+        Map<String, String> prices = new HashMap<>();
+        for (WebElement element : searchResults)
+        {
+            String name = element.findElement(By.cssSelector("h4 a")).getText();
+            List<WebElement> prices1 = element.findElements(By.className("price-new"));
+            if (prices1.size() > 0)
+            {
+                prices.put(name, prices1.get(0).getText());
+            } else
+            {
+                String priceAll = element.findElement(By.className("price")).getText();
+                String removable = element.findElement(By.cssSelector(".price span")).getText();
+                String price = priceAll.replace(removable, "").replace("\n", "").replace("\r", "");
+                prices.put(name, price);
+            }
+        }
+        return prices;
+    }
 }

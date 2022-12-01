@@ -19,6 +19,16 @@ public class ProductPage
     @FindBy(xpath = "//a[text()='product comparison']")
     WebElement compareLink;
 
+    @FindBy(css = ".thumbnails li:not(.image-additional)")
+    WebElement productImage;
+
+    @FindBy(xpath = "//h2[text()[contains(.,'€')]]")
+    WebElement productPriceEur;
+
+    @FindBy(xpath = "//a[text()='Specification']")
+    WebElement specification;
+
+
     public boolean isCompareButtonPresent()
     {
         return compareButton.isDisplayed() && compareButton.isEnabled();
@@ -34,5 +44,29 @@ public class ProductPage
         WebDriverWait wait = new WebDriverWait(driver,Duration.ofSeconds(2));
         wait.until(ExpectedConditions.elementToBeClickable(compareLink));
         compareLink.click();
+    }
+
+    public boolean isProductImageVisible()
+    {
+        return productImage.isDisplayed();
+    }
+
+    public String getPriceText()
+    {
+       return productPriceEur.getText();
+    }
+
+    public boolean isSpecificationTabPresent()
+    {
+        return specification.isDisplayed();
+    }
+    public void clickSpecificationTab()
+    {
+        specification.click();
+    }
+
+    public boolean isSpecificationTabActive()
+    {
+        return "true".equals(specification.getAttribute("aria-expanded"));
     }
 }

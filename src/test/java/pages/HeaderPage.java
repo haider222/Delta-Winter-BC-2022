@@ -1,5 +1,6 @@
 package pages;
 
+import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -21,6 +22,8 @@ public class HeaderPage {
     @FindBy(how = How.XPATH, using = "//*[@id='menu']//a[text()='Show All Laptops & Notebooks']")
     WebElement laptopsAndNotebookAllMenu;
 
+    @FindBy(id= "form-currency")
+    WebElement currencyField;
 
     public void pressEnterToSearch() {
         searchField.sendKeys(Keys.ENTER);
@@ -47,5 +50,11 @@ public class HeaderPage {
     public void clickLaptopsAndNotebooksAll() {
         laptopsAndNotebookMenu.click();
         laptopsAndNotebookAllMenu.click();
+    }
+
+    public void selectCurrency(String currency)
+    {
+        currencyField.click();
+        currencyField.findElement(By.name(currency)).click();
     }
 }
