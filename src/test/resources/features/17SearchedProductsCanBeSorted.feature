@@ -15,15 +15,3 @@ Feature: List of products after search can be sorted
       | NAME_DESC  | iPod Touch,iPod Shuffle,iPod Nano,iPod Classic,iPhone | iP    |
       | PRICE_ASC  | iMac,MacBook,MacBook Air,MacBook Pro                  | Mac   |
       | PRICE_DESC | MacBook Pro,MacBook Air,MacBook,iMac                  | Mac   |
-
-  Scenario: Rating highest search result with one rated product should contain that product first in a list
-    When User enters value "Mac" into search field in header
-    And User clicks search button magnifying glass
-    And User selects sorting "RATING_HIGHEST"
-    Then User see search result list contains items "MacBook,MacBook Pro,MacBook Air,iMac"
-
-  Scenario: Rating lowest search result with one rated product should contain that product last in a list
-    When User enters value "Mac" into search field in header
-    And User clicks search button magnifying glass
-    And User selects sorting "RATING_LOWEST"
-    Then User see search result list contains items "iMac,MacBook Air,MacBook Pro,MacBook"
