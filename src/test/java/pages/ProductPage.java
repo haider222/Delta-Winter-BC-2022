@@ -29,6 +29,16 @@ public class ProductPage {
     @FindBy(xpath = "//a[text()='product comparison']")
     WebElement compareLink;
 
+    @FindBy(css = ".thumbnails li:not(.image-additional)")
+    WebElement productImage;
+
+    @FindBy(xpath = "//h2[text()[contains(.,'€')]]")
+    WebElement productPriceEur;
+
+    @FindBy(xpath = "//a[text()='Specification']")
+    WebElement specification;
+
+
     @FindBy(css = "#content [href='#tab-review']")
     WebElement reviewTab;
 
@@ -92,5 +102,29 @@ public class ProductPage {
         System.out.println("reviewAlert.getText() = " + reviewAlert.getText());
         System.out.println("message = " + message);
         return reviewAlert.getText().contains(message);
+    }
+
+    public boolean isProductImageVisible()
+    {
+        return productImage.isDisplayed();
+    }
+
+    public String getPriceText()
+    {
+       return productPriceEur.getText();
+    }
+
+    public boolean isSpecificationTabPresent()
+    {
+        return specification.isDisplayed();
+    }
+    public void clickSpecificationTab()
+    {
+        specification.click();
+    }
+
+    public boolean isSpecificationTabActive()
+    {
+        return "true".equals(specification.getAttribute("aria-expanded"));
     }
 }

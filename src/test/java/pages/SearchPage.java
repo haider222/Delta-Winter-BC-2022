@@ -7,9 +7,12 @@ import org.openqa.selenium.support.How;
 
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
-public class SearchPage {
+public class SearchPage
+{
     @FindBy(how = How.ID, using = "input-search")
     WebElement searchField;
 
@@ -36,23 +39,29 @@ public class SearchPage {
         searchField.sendKeys(value);
     }
 
-    public void clickSearchButton() {
+    public void clickSearchButton()
+    {
         searchButton.click();
     }
 
-    public void disableSearchInDescription() {
-        if (searchInDescriptionCheckbox.isSelected()) {
+    public void disableSearchInDescription()
+    {
+        if (searchInDescriptionCheckbox.isSelected())
+        {
             searchInDescriptionCheckbox.click();
         }
     }
 
-    public void enableSearchInDescription() {
-        if (!searchInDescriptionCheckbox.isSelected()) {
+    public void enableSearchInDescription()
+    {
+        if (!searchInDescriptionCheckbox.isSelected())
+        {
             searchInDescriptionCheckbox.click();
         }
     }
 
-    public String getSearchErrorMessage() {
+    public String getSearchErrorMessage()
+    {
         return searchErrorMessage.getText();
     }
 
@@ -66,9 +75,11 @@ public class SearchPage {
         return resultEmpty;
     }
 
-    public List<String> getProductDescpriptions() {
+    public List<String> getProductDescpriptions()
+    {
         List<String> descriptions = new ArrayList<>();
-        for (WebElement product : searchResults) {
+        for (WebElement product : searchResults)
+        {
             WebElement description = product.findElement(By.cssSelector("p:not(:has(span))"));
             String text = description.getText();
             descriptions.add(text);
@@ -76,20 +87,24 @@ public class SearchPage {
         return descriptions;
     }
 
-    public boolean clickSearchResultByName(String name) {
-        for (WebElement element : searchResults) {
-            List<WebElement> nameElements = element.findElements(By.xpath("//a[text()='" + name + "']"));
-            if (nameElements.size() > 0) {
+    public boolean clickSearchResultByName(String name)
+    {
+        for(WebElement element : searchResults)
+        {
+            List<WebElement> nameElements = element.findElements(By.xpath("//a[text()='"+name+"']"));
+            if(nameElements.size() > 0)
+            {
                 element.click();
                 return true;
             }
         }
         return false;
     }
-
-    public List<String> getProductNames() {
+    public List<String> getProductNames()
+    {
         List<String> names = new ArrayList<>();
-        for (WebElement product : searchResults) {
+        for (WebElement product : searchResults)
+        {
             WebElement name = product.findElement(By.cssSelector(".product-thumb h4 a"));
             String text = name.getText();
             names.add(text);
@@ -119,5 +134,25 @@ public class SearchPage {
                 sortDropDown.findElement(By.cssSelector("[value*='sort=rating&order=ASC']")).click();
                 break;
         }
+    }
+    public Map<String, String> getProductPrices()
+    {
+        Map<String, String> prices = new HashMap<>();
+        for (WebElement element : searchResults)
+        {
+            String name = element.findElement(By.cssSelector("h4 a")).getText();
+            List<WebElement> prices1 = element.findElements(By.className("price-new"));
+            if (prices1.size() > 0)
+            {
+                prices.put(name, prices1.get(0).getText());
+            } else
+            {
+                String priceAll = element.findElement(By.className("price")).getText();
+                String removable = element.findElement(By.cssSelector(".price span")).getText();
+                String price = priceAll.replace(removable, "").replace("\n", "").replace("\r", "");
+                prices.put(name, price);
+            }
+        }
+        return prices;
     }
 }
