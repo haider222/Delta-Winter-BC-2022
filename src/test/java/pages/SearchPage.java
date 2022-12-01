@@ -5,6 +5,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.How;
 
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -13,26 +14,27 @@ import java.util.Map;
 public class SearchPage
 {
     @FindBy(how = How.ID, using = "input-search")
-    private WebElement searchField;
+    WebElement searchField;
 
     @FindBy(how = How.ID, using = "button-search")
-    private WebElement searchButton;
+    WebElement searchButton;
 
     @FindBy(how = How.ID, using = "description")
-    private WebElement searchInDescriptionCheckbox;
+    WebElement searchInDescriptionCheckbox;
 
     @FindBy(how = How.CSS, using = "#content p:not(:has(label))")
-    private WebElement searchErrorMessage;
+    WebElement searchErrorMessage;
 
-    @FindBy(how = How.XPATH, using = "//*[@id='content']//*[contains(text(),'There is no " +
-            "product')]")
+    @FindBy(how = How.XPATH, using = "//*[@id='content']//*[contains(text(),'There is no product')]")
     WebElement searchResultEmptyMessage;
 
     @FindBy(className = "product-thumb")
-    private List<WebElement> searchResults;
+    List<WebElement> searchResults;
 
-    public void enterSearchValue(String value)
-    {
+    @FindBy(how = How.CSS, using = "#input-sort")
+    WebElement sortDropDown;
+
+    public void enterSearchValue(String value) {
         searchField.clear();
         searchField.sendKeys(value);
     }
@@ -63,15 +65,11 @@ public class SearchPage
         return searchErrorMessage.getText();
     }
 
-    public boolean isSearchResultIsEmpty()
-    {
+    public boolean isSearchResultIsEmpty() {
         boolean resultEmpty = true;
-        try
-        {
+        try {
             searchResultEmptyMessage.getText();
-        }
-        catch (Exception e)
-        {
+        } catch (Exception e) {
             resultEmpty = false;
         }
         return resultEmpty;
@@ -91,11 +89,10 @@ public class SearchPage
 
     public boolean clickSearchResultByName(String name)
     {
-        for (WebElement element : searchResults)
+        for(WebElement element : searchResults)
         {
-            List<WebElement> nameElements =
-                    element.findElements(By.xpath("//a[text()='" + name + "']"));
-            if (nameElements.size() > 0)
+            List<WebElement> nameElements = element.findElements(By.xpath("//a[text()='"+name+"']"));
+            if(nameElements.size() > 0)
             {
                 element.click();
                 return true;
@@ -103,19 +100,41 @@ public class SearchPage
         }
         return false;
     }
-
     public List<String> getProductNames()
     {
         List<String> names = new ArrayList<>();
         for (WebElement product : searchResults)
         {
-            WebElement name = product.findElement(By.cssSelector("h4 a"));
+            WebElement name = product.findElement(By.cssSelector(".product-thumb h4 a"));
             String text = name.getText();
             names.add(text);
         }
         return names;
     }
 
+    public void selectSortBy(String option) {
+        sortDropDown.click();
+        switch (option) {
+            case "NAME_ASC":
+                sortDropDown.findElement(By.cssSelector("[value*='sort=pd.name&order=ASC']")).click();
+                break;
+            case "NAME_DESC":
+                sortDropDown.findElement(By.cssSelector("[value*='sort=pd.name&order=DESC']")).click();
+                break;
+            case "PRICE_ASC":
+                sortDropDown.findElement(By.cssSelector("[value*='sort=p.price&order=ASC']")).click();
+                break;
+            case "PRICE_DESC":
+                sortDropDown.findElement(By.cssSelector("[value*='sort=p.price&order=DESC']")).click();
+                break;
+            case "RATING_HIGHEST":
+                sortDropDown.findElement(By.cssSelector("[value*='sort=rating&order=DESC']")).click();
+                break;
+            case "RATING_LOWEST":
+                sortDropDown.findElement(By.cssSelector("[value*='sort=rating&order=ASC']")).click();
+                break;
+        }
+    }
     public Map<String, String> getProductPrices()
     {
         Map<String, String> prices = new HashMap<>();
