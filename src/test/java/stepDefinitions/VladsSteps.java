@@ -10,7 +10,13 @@ import org.junit.jupiter.api.Assertions;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.Select;
+import pages.ComparisonPage;
+import pages.HeaderPage;
+import pages.ProductPage;
+import pages.SearchPage;
+
 import static org.junit.Assert.*;
 
 import static org.junit.Assert.assertEquals;
@@ -19,13 +25,24 @@ import static org.junit.Assert.assertTrue;
 public class VladsSteps {
     private WebDriver driver;
 
+    private HeaderPage headerPage;
+
+    private SearchPage searchPage;
+
+    private ProductPage productPage;
+
+    private ComparisonPage comparisonPage;
+
     public VladsSteps() {
         this.driver = Hooks.driver;
+        headerPage = PageFactory.initElements(driver, HeaderPage.class);
+        searchPage = PageFactory.initElements(driver, SearchPage.class);
+        productPage = PageFactory.initElements(driver, ProductPage.class);
+        comparisonPage = PageFactory.initElements(driver, ComparisonPage.class);
     }
 
     @Given("User is at Homepage")
-    public void iGoToDemoshopUrl()
-    {
+    public void iGoToDemoshopUrl() {
         driver.get("http://www.demoshop24.com/");
     }
 
@@ -53,7 +70,7 @@ public class VladsSteps {
 
     @And("User checks that Search in subcategories checkbox is unchecked")
     public void userChecksThatSearchInSubcategoriesCheckboxIsUnchecked() {
-    assertFalse(driver.findElement(By.cssSelector("#content > div > div:nth-child(3) > label > input[type=checkbox]")).isSelected());
+        assertFalse(driver.findElement(By.cssSelector("#content > div > div:nth-child(3) > label > input[type=checkbox]")).isSelected());
     }
 
     @Then("User sees empty search list")
@@ -67,4 +84,17 @@ public class VladsSteps {
         assertTrue(searchList.isDisplayed());
         assertTrue(searchList.getText().contains(arg0));
     }
+
+    @When("User clicks search button in the header")
+    public void userClicksSearchButtonInTheHeader() {
+        headerPage.clickSearchButton();
+    }
+
+
+    @Then("User sees pagination in the bottom left corner")
+    public void userSeesPaginationInTheBottomLeftCorner() {
+        assertTrue(driver.findElement(By.className("pagination")).isDisplayed());
+    }
+
 }
+
