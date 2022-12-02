@@ -4,31 +4,39 @@ import io.cucumber.java.en.And;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import org.openqa.selenium.By;
+import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.WebDriver;
 import io.cucumber.java.en.Given;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.PageFactory;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.Select;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import pages.HeaderFooterPage;
 import pages.HeaderPage;
 import pages.MultiplePages;
 
+import java.time.Duration;
 import java.util.List;
 import java.util.Map;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 public class IngaSteps {
     private WebDriver driver;
     static MultiplePages search13;
     static HeaderFooterPage header;
+    static WebDriverWait wait;
 
     public IngaSteps() {
 
         this.driver = Hooks.driver;
         search13 = PageFactory.initElements(Hooks.driver, MultiplePages.class);
         header = PageFactory.initElements(Hooks.driver, HeaderFooterPage.class);
+        wait = (WebDriverWait) new WebDriverWait(driver, Duration.ofSeconds(10)).ignoring(StaleElementReferenceException.class);
     }
 
     @Given("user is at demoshop page")
@@ -247,13 +255,55 @@ public class IngaSteps {
     }
 
     @And("user clicks Wish List icon at header")
-    public void userClicksWishListIconAtHeader() {
+    public void userClicksWishListIconAtHeader() throws InterruptedException {
+        Thread.sleep(3000);
         header.clickWishListIcon();
     }
 
-    @And("user clicks Ckeckout icon at header")
+    @And("user clicks Checkout icon at header")
     public void userClicksCkeckoutIconAtHeader() {
         header.clickCheckoutIcon();
+    }
+
+    @And("user presses Add to Cart button")
+    public void userPressesAddToCartButton() {
+        search13.pressAddToCartButtonAtProductPage();
+    }
+
+    @Then("product {string} is in the Shopping Cart")
+    public void productIsInTheShoppingCart(String arg0) {
+        wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//a[text()='" + arg0 + "']")));
+        assertEquals(arg0, driver.findElement(By.xpath("//a[text()='" + arg0 + "']")).getText());
+    }
+
+    @Then("product {string} is not in the Shopping Cart")
+    public void productIsNotInTheShoppingCart(String arg0) {
+        List<WebElement> productsInCart = driver.findElements(By.cssSelector(".text-left [href*='route=product']"));
+        if (productsInCart.size() == 0) {
+            assertTrue(productsInCart.size() == 0);
+        } else {
+            for (int i=0; i< (productsInCart.size()); i++) {
+                assertNotEquals(productsInCart.get(i).getText(), arg0);
+            }
+        }
+    }
+
+
+
+    @And("user adds the product to the Wish List")
+    public void userAddsTheProductToTheWishList() {
+        search13.addToWishList();
+    }
+
+    @And("user clicks Add to Cart button in the Wish List")
+    public void userClicksAddToCartButtonInTheWishList() {
+        wait.until(ExpectedConditions.presenceOfElementLocated(By.cssSelector("[data-original-title='Add to Cart']")));
+        search13.addToCartFromWishList();
+    }
+
+    @Then("user is redirected to Login page")
+    public void userIsRedirectedToLoginRegisterPage() {
+        assertEquals("http://www.demoshop24.com/index.php?route=account/login", driver.getCurrentUrl());
     }
 }
 

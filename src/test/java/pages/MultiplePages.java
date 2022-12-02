@@ -57,6 +57,13 @@ public class MultiplePages {
     private WebElement loginButton;
     @FindBy(how = How.CSS, using = ".list-unstyled [href*='route=account/edit']")
     private WebElement editAccountLink;
+    @FindBy(how = How.ID, using = "button-cart")
+    private WebElement addToCartButtonAtProductPage;
+    @FindBy(css = "[data-original-title='Add to Wish List']")
+    private WebElement addToWishListButton;
+    @FindBy(css = "[data-original-title='Add to Cart']")
+    private WebElement addToCartButtonInTheWishList;
+
 
 
     public String getPageUrl() {
@@ -155,6 +162,16 @@ public class MultiplePages {
         editAccountLink.click();
     }
 
+    public void pressAddToCartButtonAtProductPage() {
+        addToCartButtonAtProductPage.click();
+    }
 
+    public void addToWishList () {
+        addToWishListButton.click();
+    }
+
+    public void addToCartFromWishList () {
+        addToCartButtonInTheWishList.click();
+    }
 
 }
