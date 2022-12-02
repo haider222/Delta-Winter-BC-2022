@@ -1,4 +1,3 @@
-@sample
 Feature: Ingas sample features
   Scenario: can connect to demoshop
     When I go to demoshop url

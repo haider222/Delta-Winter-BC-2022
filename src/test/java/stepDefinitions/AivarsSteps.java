@@ -4,13 +4,9 @@ import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
-import org.openqa.selenium.By;
 import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.PageFactory;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.Wait;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import pages.HeaderPage;
 import pages.ProductPage;
@@ -23,15 +19,13 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class AivarsSteps {
 
-    private static WebDriver driver;
+    private WebDriver driver;
     static HeaderPage headerPage;
     static SearchPage searchPage;
     static ProductPage productPage;
-    static WebDriverWait wait;
 
     public AivarsSteps() {
         this.driver = Hooks.driver;
-        wait = (WebDriverWait) new WebDriverWait(driver, Duration.ofSeconds(10)).ignoring(StaleElementReferenceException.class);
         headerPage = PageFactory.initElements(Hooks.driver, HeaderPage.class);
         searchPage = PageFactory.initElements(Hooks.driver, SearchPage.class);
         productPage = PageFactory.initElements(Hooks.driver, ProductPage.class);
@@ -110,33 +104,5 @@ public class AivarsSteps {
     public void userShouldNotSeeMessageInReviewSection(String arg0) {
         boolean reviewAlertContainsMessage = productPage.isReviewAlertContainsMessage(arg0);
         assertFalse(reviewAlertContainsMessage);
-    }
-
-    @When("User clicks Login button in header")
-    public void userClicksLoginButtonInHeader() {
-        headerPage.clickLoginPage();
-    }
-
-    @And("User enters email {string} and password {string} in login form")
-    public void userEntersEmailAndPasswordInLoginForm(String em, String pw) {
-        WebElement email = driver.findElement(By.id("input-email"));
-        email.clear();
-        email.sendKeys(em);
-        WebElement password = driver.findElement(By.id("input-password"));
-        password.clear();
-        password.sendKeys(pw);
-    }
-
-    @And("User clicks login in login form")
-    public void userClicksLoginInLoginForm() {
-        driver.findElement(By.cssSelector("form input[value='Login']")).click();
-        wait.until(ExpectedConditions.presenceOfElementLocated(By.cssSelector("#column-right [href*='logout']")));
-        System.out.println("#column-right [href*='logout'] Text: " + driver.findElement(By.cssSelector("#column-right [href*='logout']")).getText());
-    }
-
-    @Then("User should see message {string} in review section")
-    public void userShouldSeeMessageInReviewSection(String arg0) {
-        boolean reviewAlertContainsMessage = productPage.isReviewAlertContainsMessage(arg0);
-        assertTrue(reviewAlertContainsMessage);
     }
 }
