@@ -95,7 +95,13 @@ public class VladsSteps {
 
     @Then("User sees pagination in the bottom left corner")
     public void userSeesPaginationInTheBottomLeftCorner() {
-        assertTrue(driver.findElement(By.className("pagination")).isDisplayed());
+        boolean paginationExist = true;
+        try {
+            driver.findElement(By.className("pagination")).isDisplayed();
+        } catch (Exception exception) {
+            paginationExist = false;
+        }
+        assertTrue("Page should have pagination",paginationExist);
     }
 
     @And("User checks that the wishlist is empty, if not - empties it")
