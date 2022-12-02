@@ -17,6 +17,8 @@ import pages.HeaderPage;
 import pages.ProductPage;
 import pages.SearchPage;
 
+import java.util.List;
+
 import static org.junit.Assert.*;
 
 import static org.junit.Assert.assertEquals;
@@ -93,7 +95,50 @@ public class VladsSteps {
 
     @Then("User sees pagination in the bottom left corner")
     public void userSeesPaginationInTheBottomLeftCorner() {
-        assertTrue(driver.findElement(By.className("pagination")).isDisplayed());
+        boolean paginationExist = true;
+        try {
+            driver.findElement(By.className("pagination")).isDisplayed();
+        } catch (Exception exception) {
+            paginationExist = false;
+        }
+        assertTrue("Page should have pagination",paginationExist);
+    }
+
+    @And("User checks that the wishlist is empty, if not - empties it")
+    public void userChecksThatTheWishlistIsEmpty() {
+
+        if(driver.findElement(By.id("content")).getText().contains("Your wish list is empty.")){
+            System.out.println("Wish list was empty");
+        }else{
+            driver.findElement(By.cssSelector("#content > div.table-responsive > table > tbody > tr > td:nth-child(6) > a")).click();
+            System.out.println("Wish list was not empty so we emptied it");
+        }
+
+    }
+
+
+
+
+    @And("User clicks Add to wishlist button on the product page")
+    public void userClicksAddToWishlistButtonOnTheProductPage() {
+        driver.findElement(By.cssSelector("#content > div:nth-child(1) > div.col-sm-4 > div.btn-group > button:nth-child(1)")).click();
+    }
+
+    @And("User clicks Add to wishlist button on the product preview")
+    public void userClicksAddToWishlistButtonOnTheProductPreview() {
+        driver.findElement(By.cssSelector("#content > div:nth-child(8) > div > div > div:nth-child(2) > div.button-group > button:nth-child(2)")).click();
+    }
+
+    @And("User navigates to the wish list using button in the header")
+    public void userNavigatesToTheWishListUsingButtonInTheHeader() {
+        driver.findElement(By.cssSelector("#wishlist-total")).click();
+    }
+
+    @Then("User sees the product by name {string} in the wish list")
+    public void userSeesTheProductByNameInTheWishList(String arg0) {
+    assertTrue(driver.findElement(By.cssSelector("#content > div.table-responsive")).isDisplayed());
+    assertTrue(driver.findElement(By.cssSelector("#content > div.table-responsive > table > tbody")).getText().contains(arg0));
+
     }
 
 }
