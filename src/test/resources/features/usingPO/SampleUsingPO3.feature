@@ -1,4 +1,4 @@
-@regression
+@sample
 Feature: Introduction to cucumber part 3
   As a test engineer
   I want to be able to write and execute a scenario outline
