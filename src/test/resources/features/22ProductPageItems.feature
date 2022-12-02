@@ -26,6 +26,7 @@ Feature: User should be able to see product image,
       | Canon EOS 5D | EUR      |
       | MacBook Air  | EUR      |
 
+  @bug
   Scenario Outline: User sees product specification on the product page
     When User enters value "<product>" in the search field
     And User clicks the search button

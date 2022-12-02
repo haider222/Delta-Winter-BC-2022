@@ -1,3 +1,4 @@
+@sample
 Feature: Aivars sample features sample file
 
   Scenario: can connect to demoshop
