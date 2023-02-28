@@ -28,7 +28,7 @@ Feature: Search bar is displayed at all pages (req. #7)
     And user can see Search box
     And user clicks Shopping Cart icon at header
     And user can see Search box
-    And user clicks Ckeckout icon at header
+    And user clicks Checkout icon at header
     Then user can see Search box
 
   Scenario: Search box is displayed after clicking sub-category "Show all"

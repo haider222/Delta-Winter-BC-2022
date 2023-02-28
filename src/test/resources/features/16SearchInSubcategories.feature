@@ -3,8 +3,7 @@ Feature: Search in subcategories
   Background:
     Given User is at Homepage
 
-  Scenario Outline: Search in subcategories should work when the "Search in subcategories"
-  checkbox is checked
+  Scenario Outline: Search in subcategories should work when the "Search in subcategories" checkbox is checked
 
     When User clicks search button in the header
     And User enters "<value>" into Search criteria field
@@ -16,8 +15,8 @@ Feature: Search in subcategories
       | value | option   |
       | iMac  | Desktops |
 
-  Scenario Outline: Search in subcategories should not work when the "Search in subcategories"
-  checkbox is not checked
+  Scenario Outline: Search in subcategories should not work when the "Search in subcategories" checkbox is not checked
+
 
     When User clicks search button in the header
     And User enters "<value>" into Search criteria field

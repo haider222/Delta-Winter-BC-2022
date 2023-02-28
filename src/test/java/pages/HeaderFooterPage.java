@@ -33,10 +33,7 @@ public class HeaderFooterPage {
     WebElement loginRegisterButton;
     @FindBy(how = How.CSS, using = "#top-links [href*='route=checkout/cart']")
     WebElement cartButton;
-    @FindBy(how = How.XPATH, using = "//*[@id='menu']//a[text()='Laptops & Notebooks']")
-    WebElement laptopsAndNotebookMenu;
-    @FindBy(how = How.XPATH, using = "//*[@id='menu']//a[text()='Show All Laptops & Notebooks']")
-    WebElement laptopsAndNotebookAllMenu;
+
 
 
     public void selectCurrency() {
@@ -78,6 +75,5 @@ public class HeaderFooterPage {
     public void clickLoginAtHeader () {
         loginPageButton.click();
     }
-
 
 }
